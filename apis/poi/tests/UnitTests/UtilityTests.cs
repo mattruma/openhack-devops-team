@@ -1,5 +1,5 @@
-﻿using Xunit;
-using poi.Utility;
+﻿using poi.Utility;
+using Xunit;
 
 namespace UnitTests
 {
@@ -13,5 +13,11 @@ namespace UnitTests
             Assert.Equal(2002, LoggingEvents.GetPOIByID);
             Assert.Equal(2002, LoggingEvents.GetPOIByTripID);
         }
+
+        //[Fact]
+        //public void TestLoggingEvents_Failure()
+        //{
+        //    Assert.Equal(1, 2);
+        //}
     }
 }
