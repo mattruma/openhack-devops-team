@@ -14,10 +14,10 @@ namespace UnitTests
             Assert.Equal(2002, LoggingEvents.GetPOIByTripID);
         }
 
-        //[Fact]
-        //public void TestLoggingEvents_Failure()
-        //{
-        //    Assert.Equal(1, 2);
-        //}
+        [Fact]
+        public void TestLoggingEvents_Failure()
+        {
+            Assert.Equal(1, 2);
+        }
     }
 }
