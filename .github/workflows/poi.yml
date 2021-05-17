@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -30,15 +29,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: apis/poi/tests/UnitTests
-
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-
-    - run: npm install
-      working-directory: ./.github/actions/create-issue
-
-    - uses: ./.github/actions/create-issue
+    
+    - name: Create issue
+      if: failure()
+      uses: ./.github/actions/create-issue
       with:
         token: ${{ secrets.GITHUB_TOKEN }} 
         title: Build Error
