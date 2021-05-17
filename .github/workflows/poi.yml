@@ -38,5 +38,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }} 
         title: Build Error
         labels: bug
-        assignees: maruma
+        assignees: mattruma
         body: "There was an error in the build."
