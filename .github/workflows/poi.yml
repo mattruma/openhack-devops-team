@@ -5,24 +5,38 @@ on:
     branches: master
   pull_request:
     branches: master
+  workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+      
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
+
     - name: Restore dependencies
       run: dotnet restore poi.sln
       working-directory: apis/poi/
+
     - name: Build
       run: dotnet build --no-restore poi.sln
       working-directory: apis/poi/
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: apis/poi/tests/UnitTests
+    
+    - name: Create issue
+      if: failure()
+      uses: ./.github/actions/create-issue
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }} 
+        title: Build Error
+        labels: bug
+        assignees: mattruma
+        body: "There was an error in the build."
