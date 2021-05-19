@@ -41,4 +41,4 @@ jobs:
         
     - name: Build and push image
       run: |
-        docker build -f apis/poi/web/Dockerfile -t ${{env.ACR_LOGIN_SERVER}}/${{env.image_name}}:${{ github.sha }}
+        docker build -f apis/poi/web/Dockerfile -t ${{secrets.ACR_LOGIN_SERVER}}/devopsoh/api-poi:${{ github.sha }}
