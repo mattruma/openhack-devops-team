@@ -32,9 +32,15 @@ jobs:
       run: dotnet test --no-build --verbosity normal
       working-directory: apis/poi/tests/UnitTests
 
-    - name: Build and push image
+    - name: Login to acr
       uses: azure/docker-login@v1
       with:
         login-server: ${{ secrets.ACR_LOGIN_SERVER }}
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
+        
+    - name: Build and push image
+      working-directory: api/poi/web
+      run: |
+        docker build . -t ${{env.CONTAINER_REGISTRY}}/${{env.image_name}}:${{ github.sha }}
+        docker push ${{env.CONTAINER_REGISTRY}}/${{env.image_name}}:${{ github.sha }}
