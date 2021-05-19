@@ -40,7 +40,5 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
         
     - name: Build and push image
-      working-directory: api/poi/web
       run: |
-        docker build . -t ${{env.CONTAINER_REGISTRY}}/${{env.image_name}}:${{ github.sha }}
-        docker push ${{env.CONTAINER_REGISTRY}}/${{env.image_name}}:${{ github.sha }}
+        docker build -f apis/poi/web/Dockerfile -t ${{env.CONTAINER_REGISTRY}}/${{env.image_name}}:${{ github.sha }}
