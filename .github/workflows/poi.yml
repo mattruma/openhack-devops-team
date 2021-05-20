@@ -55,18 +55,18 @@ jobs:
         slot-name: staging
         images: '${{ secrets.ACR_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.run_number }}'    
     
-    - name: Update tags
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az webapp update -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging --set tags.image=${{ secrets.ACR_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.run_number }}
-    
     - name: Check the deployed service URL
       uses: jtalk/url-health-check-action@v1.5
       with:
         url: https://openhackqsn13oi5poi-staging.azurewebsites.net/api/healthcheck/poi
         max-attempts: 3 
         retry-delay: 5s 
+    
+    - name: Swap slots
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az webapp deployment slot swap  -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging --target-slot production
       
     - name: Azure logout
       run: |
