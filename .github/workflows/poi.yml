@@ -51,7 +51,7 @@ jobs:
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: openhackqsn13oi5poi
+        app-name: openhackqsn13oi5poi-staging
         images: '${{ secrets.ACR_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.run_number }}'
     
     - name: Azure logout
