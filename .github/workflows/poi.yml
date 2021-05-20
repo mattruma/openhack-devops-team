@@ -48,6 +48,7 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true 
 
     - uses: azure/webapps-deploy@v2
       with:
@@ -55,6 +56,13 @@ jobs:
         slot-name: staging
         images: '${{ secrets.ACR_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.run_number }}'
     
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          Set-AzWebAppSlot -ResourceGroupName openhackqsn13oi5rg -Name openhackqsn13oi5poi -Slot staging -Tag @{Image="${{ secrets.ACR_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.run_number }}"; Run= "${{ github.run_number }}"}
+        azPSVersion: "latest"
+          
     - name: Azure logout
       run: |
         az logout
