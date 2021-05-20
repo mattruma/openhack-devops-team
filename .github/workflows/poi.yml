@@ -67,6 +67,13 @@ jobs:
       with:
         inlineScript: |
           az webapp deployment slot swap  -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging --target-slot production
+    
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.5
+      with:
+        url: https://openhackqsn13oi5poi.azurewebsites.net/api/healthcheck/poi
+        max-attempts: 3 
+        retry-delay: 5s 
       
     - name: Azure logout
       run: |
