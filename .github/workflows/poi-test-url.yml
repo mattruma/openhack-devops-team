@@ -1,4 +1,4 @@
-name: poi
+name: poi-test-url
 
 on:
   workflow_dispatch:
