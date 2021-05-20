@@ -9,7 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-   
+    - name: Login via Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Swap slots
       uses: azure/CLI@v1
       with:
@@ -22,3 +26,7 @@ jobs:
         url: https://openhackqsn13oi5poi.azurewebsites.net/api/healthcheck/poi
         max-attempts: 3 
         retry-delay: 5s 
+      
+    - name: Azure logout
+      run: |
+        az logout
