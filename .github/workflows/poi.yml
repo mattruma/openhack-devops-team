@@ -60,26 +60,27 @@ jobs:
         inlineScript: |
           az webapp start -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging
 
-    - uses: azure/webapps-deploy@v2
+    - name: Deploy to staging
+      uses: azure/webapps-deploy@v2
       with:
         app-name: openhackqsn13oi5poi
         slot-name: staging
         images: '${{ secrets.ACR_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.run_number }}'    
     
-    - name: Check the deployed service URL
+    - name: Validate staging is operational
       uses: jtalk/url-health-check-action@v1.5
       with:
         url: https://openhackqsn13oi5poi-staging.azurewebsites.net/api/healthcheck/poi
         max-attempts: 3 
         retry-delay: 5s 
     
-    - name: Swap slots
+    - name: Swap staging with production
       uses: azure/CLI@v1
       with:
         inlineScript: |
           az webapp deployment slot swap  -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging --target-slot production
     
-    - name: Check the deployed service URL
+    - name: Validate production is operational
       uses: jtalk/url-health-check-action@v1.5
       with:
         url: https://openhackqsn13oi5poi.azurewebsites.net/api/healthcheck/poi
@@ -92,6 +93,6 @@ jobs:
         inlineScript: |
           az webapp stop -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging      
           
-    - name: Azure logout
+    - name: Logout via Azure CLI
       run: |
         az logout
