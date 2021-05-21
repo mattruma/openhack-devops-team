@@ -48,6 +48,12 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Start staging slot
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az webapp start -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging
 
     - uses: azure/webapps-deploy@v2
       with:
@@ -74,7 +80,13 @@ jobs:
         url: https://openhackqsn13oi5poi.azurewebsites.net/api/healthcheck/poi
         max-attempts: 3 
         retry-delay: 5s 
-      
+    
+    - name: Stop staging slot
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az webapp stop -g openhackqsn13oi5rg -n openhackqsn13oi5poi --slot staging      
+          
     - name: Azure logout
       run: |
         az logout
